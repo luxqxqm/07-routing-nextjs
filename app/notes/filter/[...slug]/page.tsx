@@ -15,13 +15,13 @@ const NotesByCategory = async ({ params }: Props) => {
 
   const queryClient = new QueryClient();
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["notes", 1, "", category],
     queryFn: () => fetchNotes(1, "", category),
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient />
+      <NotesClient category={category} />
     </HydrationBoundary>
   );
 };

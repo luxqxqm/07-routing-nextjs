@@ -8,12 +8,13 @@ interface fetchNotesResponse {
     totalPages: number;
 }
 
-export const fetchNotes =  async (page:number = 1, search:string) => {
+export const fetchNotes =  async (page:number = 1, search:string, categoryId?: string) => {
     const res =  await axios.get<fetchNotesResponse>("/notes", {
         params: {
             page,
             search,
-            perPage:12
+            perPage: 12,
+            tag:categoryId
         },
         headers: {
             Authorization:`Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`

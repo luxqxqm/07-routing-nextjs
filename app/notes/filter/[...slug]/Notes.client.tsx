@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import Pagination from "../../components/Pagination/Pagination";
-import css from "../Home.module.css";
+import Pagination from "../../../../components/Pagination/Pagination";
+import css from "../NotesPage.module.css";
 import { useDebouncedCallback } from "use-debounce";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Modal from "@/components/Modal/Modal";
@@ -10,15 +10,18 @@ import NoteList from "@/components/NoteList/NoteList";
 import { fetchNotes } from "@/lib/api";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export default function NotesClient() {
+interface Props {
+  category?: string;
+}
+export default function NotesClient({ category }: Props) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   // use query
   const { data, isLoading, isSuccess, isError } = useQuery({
-    queryKey: ["notes", page, search],
-    queryFn: () => fetchNotes(page, search),
+    queryKey: ["notes", page, search, category],
+    queryFn: () => fetchNotes(page, search, category),
     placeholderData: keepPreviousData,
   });
   const handleSearch = useDebouncedCallback((value: string) => {
@@ -26,6 +29,7 @@ export default function NotesClient() {
     setPage(1);
   });
 
+  console.log(data);
   const modalOpen = () => setIsOpenModal(true);
   const modalClose = () => setIsOpenModal(false);
 

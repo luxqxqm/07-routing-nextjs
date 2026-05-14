@@ -9,6 +9,7 @@ import NoteDetailsClient from "./NoteDetails.client";
 type Props = {
   params: Promise<{ id: string }>;
 };
+
 export default async function NotesDetails(props: Props) {
   const { id } = await props.params;
 
